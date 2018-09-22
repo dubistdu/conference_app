@@ -1,0 +1,15 @@
+
+# sqlite3 configuration file for activerecord
+# note to self - watch out for an indentation
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/development.sqlite3
+
+test:
+  <<: *default
+  database: db/test.sqlite3

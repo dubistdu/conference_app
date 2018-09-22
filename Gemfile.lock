@@ -30,6 +30,9 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.4)
       tilt (~> 2.0)
+    sinatra-activerecord (2.0.13)
+      activerecord (>= 3.2)
+      sinatra (>= 1.0)
     sinatra-contrib (2.0.4)
       activesupport (>= 4.0.0)
       backports (>= 2.8.2)
@@ -48,10 +51,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord
   puma
   rake
   sinatra
+  sinatra-activerecord
   sinatra-contrib
   sqlite3
 
