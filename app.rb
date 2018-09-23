@@ -5,9 +5,11 @@ require 'sinatra/activerecord'
 
 #  won't ba albe to create speaker record without requiring relative file - speaker
 require_relative 'models/speaker'
+require 'rack/contrib'
 
 class ConferenceApp < Sinatra::Base
   set :database_file, 'config/database.yml'
+  use Rack::PostBodyContentTypeParser
 
   get '/' do
     'It Works!'
@@ -23,5 +25,13 @@ class ConferenceApp < Sinatra::Base
     @speakers = Speaker.all
     json @speakers
   end
-
+  
+  post '/graphql' do
+      result = ConferenceAppSchema.execute(
+        params[:query],
+        variables: params[:variables],
+        context: { current_user: nil },
+      )
+      json result
+    end
 end
