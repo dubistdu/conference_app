@@ -1,11 +1,12 @@
-
+require 'pry'
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/activerecord'
-
-#  won't ba albe to create speaker record without requiring relative file - speaker
-require_relative 'models/speaker'
 require 'rack/contrib'
+
+# add before creating speaker object in console
+require_relative 'models/speaker'
+require_relative 'graphql/schema'
 
 class ConferenceApp < Sinatra::Base
   set :database_file, 'config/database.yml'
@@ -20,18 +21,17 @@ class ConferenceApp < Sinatra::Base
     json message
   end
 
-  # Create a new endpoint to show the list of speakers, as JSON.
   get '/speakers' do
     @speakers = Speaker.all
     json @speakers
   end
-  
+
   post '/graphql' do
-      result = ConferenceAppSchema.execute(
-        params[:query],
-        variables: params[:variables],
-        context: { current_user: nil },
-      )
-      json result
-    end
+    result = ConferenceAppSchema.execute(
+      params[:query],
+      variables: params[:variables],
+      context: { current_user: nil },
+    )
+    json result
+  end
 end
